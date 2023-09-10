@@ -1,43 +1,60 @@
-import customtkinter as ctk
+# Task 2 - Simple Calculator
+def add(n1, n2):
+    return n1+n2
 
-task_widgets = {}
 
-def add_todo():
-    todo = entry.get()
-    if todo:
-        label = ctk.CTkLabel(scrollable_frame, text=todo)
-        label.pack()
-        delete_button = ctk.CTkButton(scrollable_frame, text="Delete", command=lambda label=label: delete_todo(label))
-        delete_button.pack()
-        task_widgets[label] = delete_button
-        entry.delete(0, ctk.END)
+def subtract(n1, n2):
+    return n1-n2
 
-def delete_todo(label_to_delete):
-    delete_button = task_widgets.get(label_to_delete)
-    if delete_button:
-        delete_button.destroy()
-        label_to_delete.destroy()
-        del task_widgets[label_to_delete]
 
-def add_todo_on_enter(event):
-    if event.keysym == 'Return':
-        add_todo()
+def multiply(n1, n2):
+    return n1*n2
 
-root = ctk.CTk()
-root.geometry("750x450")
-root.title("Todo App")
 
-title_label = ctk.CTkLabel(root, text="Daily Tasks", font=ctk.CTkFont(size=30, weight="bold"))
-title_label.pack(padx=10, pady=(40, 20))
+def divide(n1, n2):
+    if n2 == 0:
+        print("Cannot divide a number with zero")
+    return n1/n2
 
-scrollable_frame = ctk.CTkScrollableFrame(root, width=500, height=200)
-scrollable_frame.pack()
 
-entry = ctk.CTkEntry(scrollable_frame, placeholder_text="Add todo")
-entry.pack(fill="x")
-entry.bind("<Return>", add_todo_on_enter)
+def exponent(n1, n2):
+    return n1 ** n2
 
-add_button = ctk.CTkButton(root, text="Add", width=500, command=add_todo)
-add_button.pack(pady=20)
 
-root.mainloop()
+def modulus(n1, n2):
+    if n2 == 0:
+        print("Modulus division by zero is undefined")
+    return n1 % n2
+
+
+operations = {
+    'add': add,
+    'subtract': subtract,
+    'multiply': multiply,
+    'divide': divide,
+    'exponent': exponent,
+    'modulus': modulus,
+}
+
+
+def calculate_result():
+    while True:
+        operation = input("\nEnter operation (Add/Subtract/Multiply/Divide/Exponent/Modulus/Exit): ").lower()
+
+        if operation == 'exit':
+            return 0
+
+        else:
+            if operation in operations:
+                n1 = float(input("Enter number 1: "))
+                n2 = float(input("Enter number 2: "))
+
+                result = operations[operation](n1, n2)
+
+                print(f"Result = {result}")
+
+            else:
+                print("Invalid operation")
+
+
+calculate_result()
